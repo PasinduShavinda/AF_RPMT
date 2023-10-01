@@ -18,18 +18,12 @@ router.post("/login", async (req, res) => {
     if (!valid) {
       throw new Error("Invalid email, please try again!");
     }
-    const user = await User.findOne({ email: req.body.email }).select(
-      "+password"
-    );
+   const user = await User.findOne({ email: req.body.email ,password :req.body.password})
     if (!user) {
-      throw new Error("User with this email does not exist");
+      throw new Error("Incorrect Password");
     }
+  
 
-    if (user.password !== req.body.password) {
-      throw new Error("Invalid Password");
-    }
-
-    user.password = null;
 
     res.status(200).json({
       message: "success",
